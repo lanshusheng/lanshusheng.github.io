@@ -231,6 +231,128 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lanshusheng.github.io/2020/07/29/test/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lanshusheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="滥书生的码洞">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/07/29/test/" itemprop="url">test</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-07-29T10:54:29+08:00">
+                2020-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>gc效果优化如图：</p>
+<p><img src="/2020/07/29/test/94CBD6BE-9426-4287-A38F-024F68D6DD6D.png" alt="94CBD6BE-9426-4287-A38F-024F68D6DD6D"></p>
+<p>原理以及调优过程：</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://lanshusheng.github.io/2020/07/28/Young-gc-%E9%A2%91%E7%B9%81%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -303,7 +425,7 @@
         
           
             <p>gc效果优化如图：</p>
-<p><img src="/Users/zhanghang/Downloads/zh/lanshusheng.github.io/source/_posts/94CBD6BE-9426-4287-A38F-024F68D6DD6D.png" alt="94CBD6BE-9426-4287-A38F-024F68D6DD6D"></p>
+<p><img src="/2020/07/28/Young-gc-%E9%A2%91%E7%B9%81%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/94CBD6BE-9426-4287-A38F-024F68D6DD6D.png" alt="94CBD6BE-9426-4287-A38F-024F68D6DD6D"></p>
 <p>原理以及调优过程：</p>
 <h1 id="一、young-gc的耗时统计二、常见垃圾回收器GC日志参数基本策略三、优化步骤优化四、现状确定目标优化"><a href="#一、young-gc的耗时统计二、常见垃圾回收器GC日志参数基本策略三、优化步骤优化四、现状确定目标优化" class="headerlink" title="一、young gc的耗时统计二、常见垃圾回收器GC日志参数基本策略三、优化步骤优化四、现状确定目标优化"></a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-一、younggc的耗时统计" target="_blank" rel="noopener">一、young gc的耗时统计</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-二、常见垃圾回收器" target="_blank" rel="noopener">二、常见垃圾回收器</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-GC日志" target="_blank" rel="noopener">GC日志</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-参数基本策略" target="_blank" rel="noopener">参数基本策略</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-三、优化步骤" target="_blank" rel="noopener">三、优化步骤</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-优化" target="_blank" rel="noopener">优化</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-四、现状" target="_blank" rel="noopener">四、现状</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-确定目标" target="_blank" rel="noopener">确定目标</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-优化.1" target="_blank" rel="noopener">优化</a></h1><h1 id="一、young-gc的耗时统计"><a href="#一、young-gc的耗时统计" class="headerlink" title="一、young gc的耗时统计"></a>一、young gc的耗时统计</h1><ul>
 <li>目前的young gc耗时以及次数如下：</li>
@@ -765,7 +887,7 @@
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
