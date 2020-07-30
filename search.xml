@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/07/28/hello-world/</url>
+    <content><![CDATA[<h3 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h3><a id="more"></a>
+
+
+
+<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Young gc 频繁的解决方案</title>
+    <url>/2020/07/28/test/</url>
+    <content><![CDATA[<p>gc效果优化如图：</p>
+<p><img src="/2020/07/28/test/94CBD6BE-9426-4287-A38F-024F68D6DD6D.png" alt="94CBD6BE-9426-4287-A38F-024F68D6DD6D"></p>
+<p>原理以及调优过程：</p>
+<a id="more"></a>
+
+
+
+<h1 id="一、young-gc的耗时统计二、常见垃圾回收器GC日志参数基本策略三、优化步骤优化四、现状确定目标优化"><a href="#一、young-gc的耗时统计二、常见垃圾回收器GC日志参数基本策略三、优化步骤优化四、现状确定目标优化" class="headerlink" title="一、young gc的耗时统计二、常见垃圾回收器GC日志参数基本策略三、优化步骤优化四、现状确定目标优化"></a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-一、younggc的耗时统计" target="_blank" rel="noopener">一、young gc的耗时统计</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-二、常见垃圾回收器" target="_blank" rel="noopener">二、常见垃圾回收器</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-GC日志" target="_blank" rel="noopener">GC日志</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-参数基本策略" target="_blank" rel="noopener">参数基本策略</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-三、优化步骤" target="_blank" rel="noopener">三、优化步骤</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-优化" target="_blank" rel="noopener">优化</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-四、现状" target="_blank" rel="noopener">四、现状</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-确定目标" target="_blank" rel="noopener">确定目标</a><a href="https://docs.snowballfinance.com/pages/viewpage.action?pageId=75464817#id-频繁的younggc给系统带来的负担-优化.1" target="_blank" rel="noopener">优化</a></h1><h1 id="一、young-gc的耗时统计"><a href="#一、young-gc的耗时统计" class="headerlink" title="一、young gc的耗时统计"></a>一、young gc的耗时统计</h1><ul>
+<li>目前的young gc耗时以及次数如下：</li>
+</ul>
+<p><img src="https://docs.snowballfinance.com/download/attachments/75464817/image2020-7-21_10-57-33.png?version=1&modificationDate=1595300253000&api=v2" alt="img"></p>
+<p><img src="https://docs.snowballfinance.com/download/attachments/75464817/image2020-7-21_11-0-10.png?version=1&modificationDate=1595300411000&api=v2" alt="img"></p>
+<ul>
+<li>young gc的耗时较长，吞吐量较低。核心是解决耗时的问题。YoungGC 的耗时在 200ms 以上，几乎没有什么对象晋升，频率 4-5 秒一次。GC 日志截图如下。</li>
+</ul>
+<p><img src="https://docs.snowballfinance.com/download/attachments/75464817/image2020-7-21_11-12-21.png?version=1&modificationDate=1595301141000&api=v2" alt="img"></p>
+<ul>
+<li>gc的配置如下：</li>
+</ul>
+<h1 id="二、常见垃圾回收器"><a href="#二、常见垃圾回收器" class="headerlink" title="二、常见垃圾回收器"></a>二、常见垃圾回收器</h1><p>不同的垃圾回收器，适用于不同的场景。常用的垃圾回收器：</p>
+<ul>
+<li>串行（Serial）回收器是单线程的一个回收器，简单、易实现、效率高。</li>
+<li>并行（ParNew）回收器是Serial的多线程版，可以充分的利用CPU资源，减少回收的时间。</li>
+<li>吞吐量优先（Parallel Scavenge）回收器，侧重于吞吐量的控制。</li>
+<li>并发标记清除（CMS，Concurrent Mark Sweep）回收器是一种以获取最短回收停顿时间为目标的回收器，该回收器是基于“标记-清除”算法实现的。</li>
+</ul>
+<h4 id="GC日志"><a href="#GC日志" class="headerlink" title="GC日志"></a>GC日志</h4><p>每一种回收器的日志格式都是由其自身的实现决定的，换而言之，每种回收器的日志格式都可以不一样。但虚拟机设计者为了方便用户阅读，将各个回收器的日志都维持一定的共性。</p>
+<h3 id="参数基本策略"><a href="#参数基本策略" class="headerlink" title="参数基本策略"></a>参数基本策略</h3><p>各分区的大小对GC的性能影响很大。如何将各分区调整到合适的大小，分析活跃数据的大小是很好的切入点。</p>
+<p>活跃数据的大小是指，应用程序稳定运行时长期存活对象在堆中占用的空间大小，也就是Full GC后堆中老年代占用空间的大小。可以通过GC日志中Full GC之后老年代数据大小得出，比较准确的方法是在程序稳定后，多次获取GC数据，通过取平均值的方式计算活跃数据的大小。活跃数据和各分区之间的比例关系如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left">空间</th>
+<th align="left">倍数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">总大小</td>
+<td align="left">3-4 倍活跃数据的大小</td>
+</tr>
+<tr>
+<td align="left">新生代</td>
+<td align="left">1-1.5 活跃数据的大小</td>
+</tr>
+<tr>
+<td align="left">老年代</td>
+<td align="left">2-3 倍活跃数据的大小</td>
+</tr>
+<tr>
+<td align="left">永久代</td>
+<td align="left">1.2-1.5 倍Full GC后的永久代空间占用</td>
+</tr>
+</tbody></table>
+<p>例如，根据GC日志获得老年代的活跃数据大小为300M，那么各分区大小可以设为：</p>
+<blockquote>
+<p>总堆：1200MB = 300MB × 4* 新生代：450MB = 300MB × 1.5* 老年代： 750MB = 1200MB - 450MB*</p>
+</blockquote>
+<p>这部分设置仅仅是堆大小的初始值，后面的优化中，可能会调整这些值，具体情况取决于应用程序的特性和需求。</p>
+<p><img src="https://docs.snowballfinance.com/download/attachments/75464817/image2020-7-21_19-54-38.png?version=1&modificationDate=1595332481000&api=v2" alt="img"></p>
+<h1 id="三、优化步骤"><a href="#三、优化步骤" class="headerlink" title="三、优化步骤"></a>三、优化步骤</h1><p>GC优化一般步骤可以概括为：确定目标、优化参数、验收结果。</p>
+<p>举例：假设单位时间T内发生一次持续25ms的GC，接口平均响应时间为50ms，且请求均匀到达，根据下图所示：</p>
+<p><img src="https://docs.snowballfinance.com/download/attachments/75464817/image2020-7-21_19-59-54.png?version=1&modificationDate=1595332797000&api=v2" alt="img"></p>
+<p>那么有(50ms+25ms)/T比例的请求会受GC影响，其中GC前的50ms内到达的请求都会增加25ms，GC期间的25ms内到达的请求，会增加0-25ms不等，如果时间T内发生N次GC，受GC影响请求占比=(接口响应时间+GC时间)×N/T 。可见无论降低单次GC时间还是降低GC次数N都可以有效减少GC对响应时间的影响。</p>
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>通过收集GC信息，结合系统需求，确定优化方案，例如选用合适的GC回收器、重新设置内存比例、调整JVM参数等。</p>
+<p>进行调整后，将不同的优化方案分别应用到多台机器上，然后比较这些机器上GC的性能差异，有针对性的做出选择，再通过不断的试验和观察，找到最合适的参数。</p>
+<h1 id="四、现状"><a href="#四、现状" class="headerlink" title="四、现状"></a>四、现状</h1><h2 id="确定目标"><a href="#确定目标" class="headerlink" title="确定目标"></a>确定目标</h2><p>服务情况：young gc 每分钟25次，每次大概200ms。接口响应时间大概平均为400ms 。<em>（200ms+400ms）× 25次/60000ms = 25% 请求时间会增加。</em></p>
+<p><strong>优化目标</strong>：降低P99时间。</p>
+<h2 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h2><p>首先优化Minor GC频繁问题。通常情况下，由于新生代空间较小，Eden区很快被填满，就会导致频繁Minor GC，因此可以通过增大新生代空间来降低Minor GC的频率。例如在相同的内存分配率的前提下，新生代中的Eden区增加一倍，Minor GC的次数就会减少一半。</p>
+<p>这时很多人有这样的疑问，扩容Eden区虽然可以减少Minor GC的次数，但会增加单次Minor GC时间么？根据上面公式，如果单次Minor GC时间也增加，很难保证最后的优化效果。我们结合下面情况来分析，单次Minor GC时间主要受哪些因素影响？是否和新生代大小存在线性关系？ 首先，单次Minor GC时间由以下两部分组成：T1（扫描新生代）和 T2（复制存活对象到Survivor区）如下图。（注：这里为了简化问题，我们认为T1只扫描新生代判断对象是否存活的时间，其实该阶段还需要扫描部分老年代，后面案例中有详细描述。）</p>
+<p><img src="https://docs.snowballfinance.com/download/attachments/75464817/image2020-7-21_20-46-48.png?version=1&modificationDate=1595335611000&api=v2" alt="img"></p>
+<ul>
+<li>扩容前：新生代容量为R ，假设对象A的存活时间为750ms，Minor GC间隔500ms，那么本次Minor GC时间= T1（扫描新生代R）+T2（复制对象A到S）。</li>
+<li>扩容后：新生代容量为2R ，对象A的生命周期为750ms，那么Minor GC间隔增加为1000ms，此时Minor GC对象A已不再存活，不需要把它复制到Survivor区，那么本次GC时间 = 2 × T1（扫描新生代R），没有T2复制时间。</li>
+</ul>
+<p>可见，扩容后，Minor GC时增加了T1（扫描时间），但省去T2（复制对象）的时间，更重要的是对于虚拟机来说，复制对象的成本要远高于扫描成本，所以，单次Minor GC时间更多取决于GC后存活对象的数量，而非Eden区的大小。因此如果堆中短期对象很多，那么扩容新生代，单次Minor GC时间不会显著增加。下面需要确认下服务中对象的生命周期分布情况：</p>
+<p><img src="https://docs.snowballfinance.com/download/attachments/75464817/image2020-7-21_20-47-10.png?version=1&modificationDate=1595335633000&api=v2" alt="img"></p>
+<p>这是典型G1的Evacuation Pause(转移暂停)，在这个阶段存活的对象被从一个分区（年轻代或年轻代+老年代）拷贝到另一个分区。</p>
+<p>这是一个STW，所有的应用线程停止在安全点。</p>
+<p><img src="https://docs.snowballfinance.com/download/attachments/75464817/image2020-7-22_13-55-33.png?version=1&modificationDate=1595397334000&api=v2" alt="img"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">0.522: [GC pause (young), 0.15877971 secs]</span><br></pre></td></tr></table></figure>
+
+<p>​    这是一个转移暂停，距离进程启动的0.522秒开始，所有被转移的是年轻代分区，一共花费了0.15877971秒。</p>
+<p>​    转移暂停也可以是混合的，比如：1.730:[GC pause (mixed), 0.32714353 secs]<strong>，</strong>此时分区包含所有的年轻代分区和部分老年代分区。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">  [Parallel Time: 157.1 ms]</span><br><span class="line">  并行GC Worker线程的总耗时，下面缩进部分是worker线程的子任务</span><br><span class="line">     [GC Worker Start (ms):  522.1  522.2  522.2  522.2 </span><br><span class="line">每个worker线程的启动时间（距离jvm启动的时间）</span><br><span class="line">      Avg: 522.2, Min: 522.1, Max: 522.2, Diff:   0.1] </span><br><span class="line">所有线程启动时间的avg,min,max,diff(下同，不赘述)</span><br><span class="line">     [Ext Root Scanning (ms):  1.6  1.5  1.6  1.9 </span><br><span class="line">每个线程扫描Roots（全局变量，寄存器，线程栈，vm数据结构）的时间</span><br><span class="line">      Avg:   1.7, Min:   1.5, Max:   1.9, Diff:   0.4] 同上</span><br><span class="line">     [Update RS (ms):  38.7  38.8  50.6  37.3 </span><br><span class="line">每个线程更新Remember Set（RSet）时间，RSet保存引用</span><br><span class="line">      Avg:  41.3, Min:  37.3, Max:  50.6, Diff:  13.3]</span><br><span class="line">        [Processed Buffers : 2 2 3 2</span><br><span class="line">         Sum: 9, Avg: 2, Min: 2, Max: 3, Diff: 1]</span><br><span class="line">     [Scan RS (ms):  9.9  9.7  0.0  9.7 </span><br><span class="line">扫描RSet的时间，每个分区的RSet包含指向分区的Card。这个阶段扫描CSet集合中所有指向分区的Card。</span><br><span class="line">      Avg:   7.3, Min:   0.0, Max:   9.9, Diff:   9.9]</span><br><span class="line">     [Object Copy (ms):  106.7  106.8  104.6  107.9 </span><br><span class="line">拷贝CSet集合里面所有分区存活对象到另一个分区的时间。</span><br><span class="line">      Avg: 106.5, Min: 104.6, Max: 107.9, Diff:   3.3]</span><br><span class="line">     [Termination (ms):  0.0  0.0  0.0  0.0</span><br><span class="line">      Avg:   0.0, Min:   0.0, Max:   0.0, Diff:   0.0]</span><br><span class="line">        [Termination Attempts : 1 4 4 6</span><br><span class="line">         Sum: 15, Avg: 3, Min: 1, Max: 6, Diff: 5]</span><br><span class="line">     [GC Worker End (ms):  679.1  679.1  679.1  679.1 </span><br><span class="line">每个线程的停止时间</span><br><span class="line">      Avg: 679.1, Min: 679.1, Max: 679.1, Diff:   0.1]</span><br><span class="line">     [GC Worker (ms):  156.9  157.0  156.9  156.9 </span><br><span class="line">每个线程的耗时</span><br><span class="line">      Avg: 156.9, Min: 156.9, Max: 157.0, Diff:   0.1]</span><br><span class="line">     [GC Worker Other (ms):  0.3  0.3  0.3  0.3 </span><br><span class="line">每个线程执行除了上面操作的其他任务的耗时</span><br><span class="line">      Avg:   0.3, Min:   0.3, Max:   0.3, Diff:   0.0]</span><br><span class="line">  [Clear CT:   0.1 ms] </span><br><span class="line">串行清除Card Table的时间</span><br><span class="line">  [Other:   1.5 ms]</span><br><span class="line">     [Choose CSet:   0.0 ms] 为CSet选择Region的时间</span><br><span class="line">     [Ref Proc:   0.3 ms] 处理对象引用的时间</span><br><span class="line">     [Ref Enq:   0.0 ms] 引用入ReferenceQueues队列的时间</span><br><span class="line">     [Free CSet:   0.3 ms] 释放CSet时间</span><br><span class="line">  [Eden: 12M(12M)-&gt;0B(10M) Survivors: 0B-&gt;2048K Heap: 13M(64M)-&gt;9739K(64M)]</span><br><span class="line">  Eden在回收之前容量和占用都是12MB，回收之后占用为0，容量为13MB（有新的分区加入Eden）。</span><br><span class="line">Survivor回收之后，占用从0变到2048KB，整个堆在回收之前占用和容量是14MB和64MB，回收之后是9739KB和64MB。</span><br><span class="line">[Times: user&#x3D;0.59 sys&#x3D;0.02, real&#x3D;0.16 secs]</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>S0C S1C S0U S1U EC EU OC OU MC MU CCSC CCSU YGC YGCT FGC FGCT GCT<br>0.0 106496.0 0.0 106496.0 2043904.0 1048576.0 6238208.0 2202526.5 188880.0 176103.4 23036.0 20985.0 32734 1590.882 0 0.000 1590.882</p>
+<p><img src="https://docs.snowballfinance.com/download/attachments/75464817/image2020-7-22_20-40-28.png?version=1&modificationDate=1595421628000&api=v2" alt="img"></p>
+<p>当前参数如下：可以看出：</p>
+<ul>
+<li><p>MC设计不合理：元数据空间十倍于使用大小</p>
+</li>
+<li><p>OC 老年</p>
+</li>
+<li><p><a href="http://zhongmingmao.me/2019/01/08/jvm-advanced-command/" target="_blank" rel="noopener">http://zhongmingmao.me/2019/01/08/jvm-advanced-command/</a> S0C 永远为0</p>
+</li>
+<li><p>S0C和S0U始终为0，这是因为使用G1 GC时，JVM不再设置Eden区、Survivor区和Old区的内存边界，而是将堆划分为若干个等长内存区域</p>
+</li>
+<li><p>每个内存区域都可以作为Eden区、Survivor区和Old区，并且可以在不同区域类型之间来回切换</p>
+</li>
+<li><p>因此，逻辑上只有一个Survivor区，当需要迁移Survivor区中的数据（Copying），只需要申请一个或多个内存区域，作为新的Survivor区</p>
+</li>
+<li><p>当发生垃圾回收时，JVM可能出现Survivor内存区域内的对象</p>
+<p>全被回收</p>
+<p>或者</p>
+<p>全被晋升</p>
+<p>的现象</p>
+<ul>
+<li>此时，JVM会将这块内存区域回收，并标记为可分配</li>
+<li>结果堆中可能完全没有Survivor内存区域，S1C和S1U均为0</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://docs.snowballfinance.com/download/thumbnails/75464817/image2020-7-22_20-48-34.png?version=1&modificationDate=1595422115000&api=v2" alt="img"></p>
+<p><img src="https://docs.snowballfinance.com/download/attachments/75464817/image2020-7-22_21-23-54.png?version=1&modificationDate=1595424234000&api=v2" alt="img"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#96;回收器的选择：https:&#96;&#96;&#x2F;&#x2F;blog&#96;&#96;.csdn.net&#96;&#96;&#x2F;lxlmycsdnfree&#x2F;article&#x2F;details&#x2F;81531363&#96; &#96;CMS回收器的好处&#96;&#96;-XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+UseCMSCompactAtFullCollection -XX:CMSFullGCsBeforeCompaction&#x3D;0 -XX:CMSInitiatingOccupancyFraction&#x3D;70 -XX:+UseCMSInitiatingOccupancyOnly&#96;</span><br></pre></td></tr></table></figure>
+
+<p>JDK 8开始把类的元数据放到本地化的堆内存(native heap)中，这一块区域就叫Metaspace，中文名叫元空间。<br>使用本地化的内存有什么好处呢？最直接的表现就是java.lang.OutOfMemoryError: PermGen 空间问题将不复存在，因为默认的类的元数据分配只受本地内存大小的限制，也就是说本地内存剩余多少，理论上Metaspace就可以有多大（貌似容量还与操作系统的虚拟内存有关？这里不太清楚），这解决了空间不足的问题。不过，让Metaspace变得无限大显然是不现实的，因此也要限制Metaspace的大小：</p>
+<p>使用-XX:MaxMetaspaceSize参数来指定Metaspace区域的大小。</p>
+<p>JVM默认在运行时根据需要动态地设置MaxMetaspaceSize的大小</p>
+<p>关于元空间的一些误区：<a href="https://www.jianshu.com/p/b448c21d2e71。不是说配置了-XX:MetaspaceSize=50m" target="_blank" rel="noopener">https://www.jianshu.com/p/b448c21d2e71。不是说配置了-XX:MetaspaceSize=50m</a> -XX:MaxMetaspaceSize=256m 这个参数他的设置就会使你的metaspace区使用量达到这个值。</p>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>gc</tag>
+        <tag>jvm 调优</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于计数器的一些思考</title>
+    <url>/2020/07/30/%E5%85%B3%E4%BA%8E%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/</url>
+    <content><![CDATA[<p>#概览</p>
+]]></content>
+      <categories>
+        <category>计数器</category>
+      </categories>
+      <tags>
+        <tag>计数器</tag>
+        <tag>feed流</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>为什么会写博客</title>
+    <url>/2020/07/28/remind/</url>
+    <content><![CDATA[<h4 id="不忘初心？"><a href="#不忘初心？" class="headerlink" title="不忘初心？"></a>不忘初心？</h4><h3 id="价值？"><a href="#价值？" class="headerlink" title="价值？"></a>价值？</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ create table me</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<blockquote>
+<blockquote>
+<p>我有一头小毛驴，偶尔骑一骑。<br></p>
+</blockquote>
+</blockquote>
+</blockquote>
+]]></content>
+  </entry>
+</search>

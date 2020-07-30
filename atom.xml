@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>滥书生的码洞</title>
+  
+  <subtitle>随笔以及一些心得记录</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://lanshusheng.github.io/"/>
+  <updated>2020-07-30T08:03:54.841Z</updated>
+  <id>https://lanshusheng.github.io/</id>
+  
+  <author>
+    <name>lanshusheng</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>关于计数器的一些思考</title>
+    <link href="https://lanshusheng.github.io/2020/07/30/%E5%85%B3%E4%BA%8E%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/"/>
+    <id>https://lanshusheng.github.io/2020/07/30/%E5%85%B3%E4%BA%8E%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/</id>
+    <published>2020-07-30T08:01:20.000Z</published>
+    <updated>2020-07-30T08:03:54.841Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;#概览&lt;/p&gt;
+
+        
+      
+    
+    </summary>
+    
+    
+      <category term="计数器" scheme="https://lanshusheng.github.io/categories/%E8%AE%A1%E6%95%B0%E5%99%A8/"/>
+    
+    
+      <category term="计数器" scheme="https://lanshusheng.github.io/tags/%E8%AE%A1%E6%95%B0%E5%99%A8/"/>
+    
+      <category term="feed流" scheme="https://lanshusheng.github.io/tags/feed%E6%B5%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Young gc 频繁的解决方案</title>
+    <link href="https://lanshusheng.github.io/2020/07/28/test/"/>
+    <id>https://lanshusheng.github.io/2020/07/28/test/</id>
+    <published>2020-07-28T11:24:25.000Z</published>
+    <updated>2020-07-30T07:57:05.239Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;gc效果优化如图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2020/07/28/test/94CBD6BE-9426-4287-A38F-024F68D6DD6D.png&quot; alt=&quot;94CBD6BE-9426-4287-A38F-024F68D6DD6D&quot;&gt;&lt;/p&gt;
+&lt;p&gt;原理以及调优过程：&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="jvm" scheme="https://lanshusheng.github.io/categories/jvm/"/>
+    
+    
+      <category term="gc" scheme="https://lanshusheng.github.io/tags/gc/"/>
+    
+      <category term="jvm 调优" scheme="https://lanshusheng.github.io/tags/jvm-%E8%B0%83%E4%BC%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>为什么会写博客</title>
+    <link href="https://lanshusheng.github.io/2020/07/28/remind/"/>
+    <id>https://lanshusheng.github.io/2020/07/28/remind/</id>
+    <published>2020-07-28T03:20:10.000Z</published>
+    <updated>2020-07-28T07:45:40.455Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h4 id=&quot;不忘初心？&quot;&gt;&lt;a href=&quot;#不忘初心？&quot; class=&quot;headerlink&quot; title=&quot;不忘初心？&quot;&gt;&lt;/a&gt;不忘初心？&lt;/h4&gt;&lt;h3 id=&quot;价值？&quot;&gt;&lt;a href=&quot;#价值？&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://lanshusheng.github.io/2020/07/28/hello-world/"/>
+    <id>https://lanshusheng.github.io/2020/07/28/hello-world/</id>
+    <published>2020-07-28T03:05:09.310Z</published>
+    <updated>2020-07-30T08:00:42.979Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;hello-world&quot;&gt;&lt;a href=&quot;#hello-world&quot; class=&quot;headerlink&quot; title=&quot;hello world&quot;&gt;&lt;/a&gt;hello world&lt;/h3&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+</feed>
