@@ -138,7 +138,7 @@
 <meta property="og:image" content="https://docs.snowballfinance.com/download/thumbnails/75464817/image2020-7-22_20-48-34.png?version=1&modificationDate=1595422115000&api=v2">
 <meta property="og:image" content="https://docs.snowballfinance.com/download/attachments/75464817/image2020-7-22_21-23-54.png?version=1&modificationDate=1595424234000&api=v2">
 <meta property="article:published_time" content="2020-07-28T11:24:25.000Z">
-<meta property="article:modified_time" content="2020-07-30T08:20:03.572Z">
+<meta property="article:modified_time" content="2020-07-31T06:14:48.182Z">
 <meta property="article:author" content="lanshusheng">
 <meta property="article:tag" content="gc">
 <meta property="article:tag" content="jvm 调优">
@@ -415,6 +415,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/07/28/gc/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2020/07/28/gc/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -594,6 +604,9 @@
 <p>使用-XX:MaxMetaspaceSize参数来指定Metaspace区域的大小。</p>
 <p>JVM默认在运行时根据需要动态地设置MaxMetaspaceSize的大小</p>
 <p>关于元空间的一些误区：<a href="https://www.jianshu.com/p/b448c21d2e71。不是说配置了-XX:MetaspaceSize=50m" target="_blank" rel="noopener">https://www.jianshu.com/p/b448c21d2e71。不是说配置了-XX:MetaspaceSize=50m</a> -XX:MaxMetaspaceSize=256m 这个参数他的设置就会使你的metaspace区使用量达到这个值。</p>
+<script src="https://utteranc.es/client.js" repo="lanshusheng/lanshusheng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async>
+</script>
+
 
       
     </div>
@@ -669,8 +682,11 @@
 
   
     <div class="comments" id="comments">
-      <div id="gitment-container"></div>
+      
+        <div id="gitment-container"></div>
+      
     </div>
+
   
 
 
@@ -709,7 +725,7 @@
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <p class="site-author-name" itemprop="name">lanshusheng</p>
-              <p class="site-description motion-element" itemprop="description">随心、有时候会想到哪写到哪</p>
+              <p class="site-description motion-element" itemprop="description">想到哪写到哪</p>
           </div>
 
           <nav class="site-state motion-element">
@@ -719,7 +735,7 @@
               
                 <a href="/archives/%7C%7C%20history">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -781,7 +797,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、young-gc的耗时统计二、常见垃圾回收器GC日志参数基本策略三、优化步骤优化四、现状确定目标优化"><span class="nav-number">1.</span> <span class="nav-text">一、young gc的耗时统计二、常见垃圾回收器GC日志参数基本策略三、优化步骤优化四、现状确定目标优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一、young-gc的耗时统计"><span class="nav-number">2.</span> <span class="nav-text">一、young gc的耗时统计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、常见垃圾回收器"><span class="nav-number">3.</span> <span class="nav-text">二、常见垃圾回收器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GC日志"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">GC日志</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数基本策略"><span class="nav-number">3.0.1.</span> <span class="nav-text">参数基本策略</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、优化步骤"><span class="nav-number">4.</span> <span class="nav-text">三、优化步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优化"><span class="nav-number">4.0.0.1.</span> <span class="nav-text">优化</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、现状"><span class="nav-number">5.</span> <span class="nav-text">四、现状</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#确定目标"><span class="nav-number">5.1.</span> <span class="nav-text">确定目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化-1"><span class="nav-number">5.2.</span> <span class="nav-text">优化</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、young-gc的耗时统计二、常见垃圾回收器GC日志参数基本策略三、优化步骤优化四、现状确定目标优化"><span class="nav-text">一、young gc的耗时统计二、常见垃圾回收器GC日志参数基本策略三、优化步骤优化四、现状确定目标优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一、young-gc的耗时统计"><span class="nav-text">一、young gc的耗时统计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、常见垃圾回收器"><span class="nav-text">二、常见垃圾回收器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GC日志"><span class="nav-text">GC日志</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数基本策略"><span class="nav-text">参数基本策略</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、优化步骤"><span class="nav-text">三、优化步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优化"><span class="nav-text">优化</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、现状"><span class="nav-text">四、现状</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#确定目标"><span class="nav-text">确定目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化-1"><span class="nav-text">优化</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -1,6 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>为什么会写博客</title>
+    <url>/2020/07/28/remind/</url>
+    <content><![CDATA[<h4 id="不忘初心？"><a href="#不忘初心？" class="headerlink" title="不忘初心？"></a>不忘初心？</h4><h3 id="价值？"><a href="#价值？" class="headerlink" title="价值？"></a>价值？</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ create table me</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<blockquote>
+<blockquote>
+<p>我有一头小毛驴，偶尔骑一骑。<br></p>
+</blockquote>
+</blockquote>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title>计数器</title>
+    <url>/2020/07/31/%E8%AE%A1%E6%95%B0%E5%99%A8/</url>
+    <content><![CDATA[<h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><h3 id="为什么要引入计数器"><a href="#为什么要引入计数器" class="headerlink" title="为什么要引入计数器"></a>为什么要引入计数器</h3><p>计数器的作用如下：</p>
+<p>   1、简单的好处是：可以加速读取的时间。</p>
+<p>   2、对于大量（80%）帖子，其实都没有任何数（评论，点赞）。对于计数器，内部为0的数据，可以减少很多timeline的读取操作。</p>
+<a id="more"></a>
+
+<h1 id="一、需求背景。"><a href="#一、需求背景。" class="headerlink" title="一、需求背景。"></a>一、需求背景。</h1><p>现在计数场景越来越多，而我们当前读取的方式主要是两种。</p>
+<ol>
+<li>​    数目（转发数，收藏数等）直接写库。更新方式： update set count = count + 1 where id = ?</li>
+<li>​    数目（点赞数）直接读取timeline : 读取方式为 select  count(<em>) from **</em> ;为什么不使用zcard读取list size，这是因为timeline是会过期的，并且很容易过期。为了计数加载全量缓存的方式很不明智。</li>
+</ol>
+<p>两种方式分别有什么问题？</p>
+<p>​    第一种方案，在高并发场景下，存在锁等待超时的问题。大概可以参考：<a href="https://blog.csdn.net/miyatang/article/details/82454999" target="_blank" rel="noopener">https://blog.csdn.net/miyatang/article/details/82454999</a></p>
+<p>​    第二种方案，随着表数据越来越多。查询时间会越来越长，效率越来越低，并且，如果伴随着数据增多的情况下，一次query的耗时很容易20ms+；</p>
+<h1 id="二、需求场景"><a href="#二、需求场景" class="headerlink" title="二、需求场景"></a>二、需求场景</h1><p>​    回头来看，我们需要这些数据都有哪些场景。</p>
+<ol>
+<li><p>读多写少或者说更新少。</p>
+</li>
+<li><p>更新频繁。如：阅读数、本场景的音频播放数。</p>
+</li>
+<li><p>希望的请求结果是：以获取一个feed（帖子）来举例。当db缓存失效的时候。我期待的最优结果应该是：</p>
+<ol>
+<li><p>我读取一次db，拿到全部的值（点赞数，阅读数等）</p>
+</li>
+<li><p>我期待的次优结果应该是：我读一次db拿到大部分的值，剩下的值，通过读redis来获取。</p>
+<p>现状是：我读一次db，只能拿到部分值（评论数，转发数）。剩下的数（点赞数），需要通过count(*)的方式来获取。耗时较长。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="三、计数器的方案预想"><a href="#三、计数器的方案预想" class="headerlink" title="三、计数器的方案预想"></a>三、计数器的方案预想</h1><p>​     从上面的分析而言，我们需要的方案有哪一些。</p>
+<ol>
+<li>最好的方案：我期待读库能拿到全部的值。但是dau上涨之后，通过 update set count = count + 1 where id = ? 这种方案可能会有锁等待超时的问题。</li>
+<li>次优的方案，我能通过读一次db拿到大部分的结果，剩下的都读cache拿到剩下的数。</li>
+<li>强一致性的方案：如评论数，我评论完了，肯定希望立刻看到评论数+1.</li>
+<li>弱一致性的方案：如音频播放数：我隔一会看到变化都没关系。</li>
+</ol>
+<h1 id="四、方案设计"><a href="#四、方案设计" class="headerlink" title="四、方案设计"></a>四、方案设计</h1><p>​    针对上面的四种场景，对应的设计方案主要是两种。</p>
+<h2 id="1、单开计数器"><a href="#1、单开计数器" class="headerlink" title="1、单开计数器"></a>1、单开计数器</h2><p>​                像点赞数：使用redis.incr 操作，查询时间复杂度o(1)。 可以满足现在的次优方案、且强一致性的方案。</p>
+<p>​                 缺点：读取相对比较麻烦。数据同步比较麻烦（数据统计也有一定问题）。</p>
+<h2 id="2、优化处理写库的问题。"><a href="#2、优化处理写库的问题。" class="headerlink" title="2、优化处理写库的问题。"></a>2、优化处理写库的问题。</h2><p>​                demo：基于计数器和时间片的方案：优化 update count = count + 1   → 转化为： update count = count + N;</p>
+<p>​            一方面可以削峰，处理高并发带来的锁等待超时的问题。另一个方面可以满足最终一致性的问题。</p>
+<p>​         eg： 以N = 10 为例。当播放数count 等数据，每次count % 10 ==0 的时候   或者 时间片耗尽的时候，我们才去更新库。这个时候也可以保证最终一致性。</p>
+<h1 id="五、方案补充"><a href="#五、方案补充" class="headerlink" title="五、方案补充"></a>五、方案补充</h1><ol>
+<li>​     离线数据怎么存储？kafka → hdfs</li>
+<li>​     热数据怎么来</li>
+</ol>
+<script src="https://utteranc.es/client.js" repo="lanshusheng/lanshusheng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async>
+</script>
+
+]]></content>
+      <categories>
+        <category>计数器</category>
+      </categories>
+      <tags>
+        <tag>计数器</tag>
+        <tag>feed流</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于计数器的一些思考</title>
+    <url>/2020/07/30/%E5%85%B3%E4%BA%8E%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/</url>
+    <content><![CDATA[<p>#概览</p>
+<a id="more"></a>
+
+<h3 id="为什么要引入计数器"><a href="#为什么要引入计数器" class="headerlink" title="为什么要引入计数器"></a>为什么要引入计数器</h3><p>计数器的作用如下：</p>
+<script src="https://utteranc.es/client.js" repo="lanshusheng/lanshusheng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async>
+</script>]]></content>
+      <categories>
+        <category>计数器</category>
+      </categories>
+      <tags>
+        <tag>计数器</tag>
+        <tag>feed流</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Young gc 频繁的解决方案</title>
     <url>/2020/07/28/gc/</url>
     <content><![CDATA[<p>gc效果优化如图：</p>
@@ -127,6 +220,9 @@
 <p>使用-XX:MaxMetaspaceSize参数来指定Metaspace区域的大小。</p>
 <p>JVM默认在运行时根据需要动态地设置MaxMetaspaceSize的大小</p>
 <p>关于元空间的一些误区：<a href="https://www.jianshu.com/p/b448c21d2e71。不是说配置了-XX:MetaspaceSize=50m" target="_blank" rel="noopener">https://www.jianshu.com/p/b448c21d2e71。不是说配置了-XX:MetaspaceSize=50m</a> -XX:MaxMetaspaceSize=256m 这个参数他的设置就会使你的metaspace区使用量达到这个值。</p>
+<script src="https://utteranc.es/client.js" repo="lanshusheng/lanshusheng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async>
+</script>
+
 ]]></content>
       <categories>
         <category>jvm</category>
@@ -156,59 +252,7 @@
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>为什么会写博客</title>
-    <url>/2020/07/28/remind/</url>
-    <content><![CDATA[<h4 id="不忘初心？"><a href="#不忘初心？" class="headerlink" title="不忘初心？"></a>不忘初心？</h4><h3 id="价值？"><a href="#价值？" class="headerlink" title="价值？"></a>价值？</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ create table me</span><br></pre></td></tr></table></figure>
-
-
-<blockquote>
-<blockquote>
-<blockquote>
-<p>我有一头小毛驴，偶尔骑一骑。<br></p>
-</blockquote>
-</blockquote>
-</blockquote>
-]]></content>
-  </entry>
-  <entry>
-    <title>关于计数器的一些思考</title>
-    <url>/2020/07/30/%E5%85%B3%E4%BA%8E%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/</url>
-    <content><![CDATA[<p>#概览</p>
-]]></content>
-      <categories>
-        <category>计数器</category>
-      </categories>
-      <tags>
-        <tag>计数器</tag>
-        <tag>feed流</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>test comment</title>
-    <url>/2020/07/31/test-comment/</url>
-    <content><![CDATA[<p>Test comment</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>11</title>
-    <url>/2020/07/31/11/</url>
-    <content><![CDATA[<p>11111</p>
-<script src="https://utteranc.es/client.js" repo="https://github.com/lanshusheng/lanshusheng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async>
-</script>
-
-
-]]></content>
-  </entry>
-  <entry>
-    <title>sss</title>
-    <url>/2020/07/31/sss/</url>
-    <content><![CDATA[<p>1111</p>
 <script src="https://utteranc.es/client.js" repo="lanshusheng/lanshusheng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async>
-</script>
-
-]]></content>
+</script>]]></content>
   </entry>
 </search>
