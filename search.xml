@@ -186,4 +186,16 @@
         <tag>feed流</tag>
       </tags>
   </entry>
+  <entry>
+    <title>test comment</title>
+    <url>/2020/07/31/test-comment/</url>
+    <content><![CDATA[<p>Test comment</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>11</title>
+    <url>/2020/07/31/11/</url>
+    <content><![CDATA[<p>11111</p>
+]]></content>
+  </entry>
 </search>
