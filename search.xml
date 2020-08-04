@@ -255,4 +255,102 @@
 <script src="https://utteranc.es/client.js" repo="lanshusheng/lanshusheng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async>
 </script>]]></content>
   </entry>
+  <entry>
+    <title>关于强弱软虚引用</title>
+    <url>/2020/08/04/%E5%85%B3%E4%BA%8E%E5%BC%BA%E5%BC%B1%E8%99%9A%E5%BC%95%E7%94%A8/</url>
+    <content><![CDATA[<p>#Java的引用核心</p>
+<p>  java存在四种引用：强引用、软引用、弱引用、虚引用。</p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>Java的内存分配和内存回收，都是由jvm去处理，一个对象是否可以被回收，主要看是否有引用指向此对象，说的专业点，叫可达性分析。</p>
+<p><strong>Java设计这四种引用的主要目的有两个：</strong></p>
+<ul>
+<li>可以让程序员通过代码的方式来决定某个对象的生命周期；</li>
+<li>主动利用垃圾回收。</li>
+</ul>
+<a id="more"></a>
+
+
+
+
+
+<h2 id="强引用"><a href="#强引用" class="headerlink" title="强引用"></a>强引用</h2><p>强引用是最普遍的一种引用，我们写的代码，99.9999%都是强引用，如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object o = <span class="keyword">new</span> Object();</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这种就是强引用了，是不是在代码中随处可见，最亲切。</p>
+<p><strong>只要某个对象有强引用与之关联，这个对象永远不会被回收，即使内存不足，JVM宁愿抛出OOM，也不会去回收。</strong></p>
+<p>那么什么时候才可以被回收呢？当强引用和对象之间的关联被中断了，就可以被回收了。</p>
+<p>我们可以手动把关联给中断了，方法也特别简单：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">o = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>我们可以手动调用GC，看看如果强引用和对象之间的关联被中断了，资源会不会被回收，为了更方便、更清楚的观察到回收的情况，我们需要新写一个类，然后重写finalize方法，下面我们来进行这个实验：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Student 被回收了"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Student student = <span class="keyword">new</span> Student();</span><br><span class="line">        student = <span class="keyword">null</span>;</span><br><span class="line">        System.gc();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">结果：</span></span><br><span class="line"><span class="comment">Student 被回收了</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="软引用"><a href="#软引用" class="headerlink" title="软引用"></a>软引用</h2><p><strong>当内存不足，会触发JVM的GC，如果GC后，内存还是不足，就会把软引用的包裹的对象给干掉，也就是只有在内存不足，JVM才会回收该对象。</strong></p>
+<p>下面先来看看如何创建一个软引用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SoftReference&lt;Student&gt;studentSoftReference=<span class="keyword">new</span> SoftReference&lt;Student&gt;(<span class="keyword">new</span> Student());</span><br></pre></td></tr></table></figure>
+
+<p>软引用就是把对象用SoftReference包裹一下，当我们需要从软引用对象获得包裹的对象，只要get一下就可以了：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SoftReference&lt;Student&gt;studentSoftReference=<span class="keyword">new</span> SoftReference&lt;Student&gt;(<span class="keyword">new</span> Student());</span><br><span class="line">Student student = studentSoftReference.get();</span><br><span class="line">System.out.println(student);</span><br></pre></td></tr></table></figure>
+
+<p>还是一样的，必须做实验，才能加深印象：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SoftReference&lt;<span class="keyword">byte</span>[]&gt; softReference = <span class="keyword">new</span> SoftReference&lt;<span class="keyword">byte</span>[]&gt;(<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>*<span class="number">1024</span>*<span class="number">10</span>]);</span><br><span class="line">System.out.println(softReference.get());</span><br><span class="line">System.gc();</span><br><span class="line">System.out.println(softReference.get());</span><br><span class="line"></span><br><span class="line"><span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span> * <span class="number">1024</span> * <span class="number">10</span>];</span><br><span class="line">System.out.println(softReference.get());</span><br></pre></td></tr></table></figure>
+
+<p>我定义了一个软引用对象，里面包裹了byte[]，byte[]占用了10M，然后又创建了10Mbyte[]。</p>
+<p>运行程序，需要带上一个参数：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-Xmx20M</span><br></pre></td></tr></table></figure>
+
+<p>代表最大堆内存是20M。</p>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[B@11d7fff</span><br><span class="line">[B@11d7fff</span><br><span class="line">null</span><br></pre></td></tr></table></figure>
+
+<p>可以很清楚的看到手动完成GC后，软引用对象包裹的byte[]还活的好好的，但是当我们创建了一个10M的byte[]后，最大堆内存不够了，所以把软引用对象包裹的byte[]给干掉了，如果不干掉，就会抛出OOM。</p>
+<p>软引用到底有什么用呢？比较适合用作缓存，当内存足够，可以正常的拿到缓存，当内存不够，就会先干掉缓存，不至于马上抛出OOM。</p>
+<h3 id="虚引用"><a href="#虚引用" class="headerlink" title="虚引用"></a>虚引用</h3><p>虚引用又被称为幻影引用，我们来看看它的使用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ReferenceQueue queue = <span class="keyword">new</span> ReferenceQueue();</span><br><span class="line">PhantomReference&lt;<span class="keyword">byte</span>[]&gt; reference = <span class="keyword">new</span> PhantomReference&lt;<span class="keyword">byte</span>[]&gt;(<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1</span>], queue);</span><br><span class="line">System.out.println(reference.get());</span><br></pre></td></tr></table></figure>
+
+<p>虚引用的使用和上面说的软引用、弱引用的区别还是挺大的，我们先不管ReferenceQueue 是个什么鬼，直接来运行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">null</span><br></pre></td></tr></table></figure>
+
+<p>竟然打印出了null，我们来看看get方法的源码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是几个意思，竟然直接返回了null。</p>
+<p>这就是虚引用特点之一了：<strong>无法通过虚引用来获取对一个对象的真实引用。</strong></p>
+<p>那虚引用存在的意义是什么呢？这就要回到我们上面的代码了，我们把代码复制下，以免大家再次往上翻：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ReferenceQueue queue = <span class="keyword">new</span> ReferenceQueue();</span><br><span class="line">PhantomReference&lt;<span class="keyword">byte</span>[]&gt; reference = <span class="keyword">new</span> PhantomReference&lt;<span class="keyword">byte</span>[]&gt;(<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1</span>], queue);</span><br><span class="line">System.out.println(reference.get());</span><br></pre></td></tr></table></figure>
+
+<p>创建虚引用对象，我们除了把包裹的对象传了进去，还传了一个ReferenceQueue，从名字就可以看出它是一个队列。</p>
+<p>虚引用的特点之二就是 <strong>虚引用必须与ReferenceQueue一起使用，当GC准备回收一个对象，如果发现它还有虚引用，就会在回收之前，把这个虚引用加入到与之关联的ReferenceQueue中。</strong></p>
+<p>我们来用代码实践下吧：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">    ReferenceQueue queue = <span class="keyword">new</span> ReferenceQueue();</span><br><span class="line">    List&lt;<span class="keyword">byte</span>[]&gt; bytes = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    PhantomReference&lt;Student&gt; reference = <span class="keyword">new</span> PhantomReference&lt;Student&gt;(<span class="keyword">new</span> Student(),queue);</span><br><span class="line">    <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>;i++ ) &#123;</span><br><span class="line">            bytes.add(<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span> * <span class="number">1024</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).start();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            Reference poll = queue.poll();</span><br><span class="line">            <span class="keyword">if</span> (poll != <span class="keyword">null</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">"虚引用被回收了："</span> + poll);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).start();</span><br><span class="line">    Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">    scanner.hasNext();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Student 被回收了</span><br><span class="line">虚引用被回收了：java.lang.ref.PhantomReference@<span class="number">1</span>ade6f1</span><br></pre></td></tr></table></figure>
+
+<p>我们简单的分析下代码：</p>
+<blockquote>
+<p>第一个线程往集合里面塞数据，随着数据越来越多，肯定会发生GC。<br>第二个线程死循环，从queue里面拿数据，如果拿出来的数据不是null，就打印出来。</p>
+</blockquote>
+<p>从运行结果可以看到：<strong>当发生GC，虚引用就会被回收，并且会把回收的通知放到ReferenceQueue中。</strong></p>
+<p>虚引用有什么用呢？在NIO中，就运用了虚引用管理堆外内存。</p>
+<script src="https://utteranc.es/client.js" repo="lanshusheng/lanshusheng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async>
+</script>]]></content>
+      <categories>
+        <category>gc</category>
+      </categories>
+      <tags>
+        <tag>垃圾回收</tag>
+        <tag>引用</tag>
+        <tag>内存分配</tag>
+      </tags>
+  </entry>
 </search>
