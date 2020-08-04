@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://lanshusheng.github.io/"/>
-  <updated>2020-08-04T12:40:57.839Z</updated>
+  <updated>2020-08-04T12:44:50.172Z</updated>
   <id>https://lanshusheng.github.io/</id>
   
   <author>
@@ -21,11 +21,12 @@
     <link href="https://lanshusheng.github.io/2020/08/04/%E5%85%B3%E4%BA%8E%E5%BC%BA%E5%BC%B1%E8%99%9A%E5%BC%95%E7%94%A8/"/>
     <id>https://lanshusheng.github.io/2020/08/04/%E5%85%B3%E4%BA%8E%E5%BC%BA%E5%BC%B1%E8%99%9A%E5%BC%95%E7%94%A8/</id>
     <published>2020-08-04T11:23:34.000Z</published>
-    <updated>2020-08-04T12:40:57.839Z</updated>
+    <updated>2020-08-04T12:44:50.172Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;#Java的引用核心&lt;/p&gt;
+      &lt;p&gt;#【转】Java的引用核心&lt;/p&gt;
+&lt;p&gt;引用：&lt;a href=&quot;https://mp.weixin.qq.com/s/iw6Vgm9odYSaeKTiofTVnw&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://mp.weixin.qq.com/s/iw6Vgm9odYSaeKTiofTVnw&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;  java存在四种引用：强引用、软引用、弱引用、虚引用。&lt;/p&gt;
 &lt;h2 id=&quot;概览&quot;&gt;&lt;a href=&quot;#概览&quot; class=&quot;headerlink&quot; title=&quot;概览&quot;&gt;&lt;/a&gt;概览&lt;/h2&gt;&lt;p&gt;Java的内存分配和内存回收，都是由jvm去处理，一个对象是否可以被回收，主要看是否有引用指向此对象，说的专业点，叫可达性分析。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Java设计这四种引用的主要目的有两个：&lt;/strong&gt;&lt;/p&gt;

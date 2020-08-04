@@ -258,7 +258,8 @@
   <entry>
     <title>关于强弱软虚引用</title>
     <url>/2020/08/04/%E5%85%B3%E4%BA%8E%E5%BC%BA%E5%BC%B1%E8%99%9A%E5%BC%95%E7%94%A8/</url>
-    <content><![CDATA[<p>#Java的引用核心</p>
+    <content><![CDATA[<p>#【转】Java的引用核心</p>
+<p>引用：<a href="https://mp.weixin.qq.com/s/iw6Vgm9odYSaeKTiofTVnw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/iw6Vgm9odYSaeKTiofTVnw</a></p>
 <p>  java存在四种引用：强引用、软引用、弱引用、虚引用。</p>
 <h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>Java的内存分配和内存回收，都是由jvm去处理，一个对象是否可以被回收，主要看是否有引用指向此对象，说的专业点，叫可达性分析。</p>
 <p><strong>Java设计这四种引用的主要目的有两个：</strong></p>
@@ -314,7 +315,7 @@
 
 <p>可以很清楚的看到手动完成GC后，软引用对象包裹的byte[]还活的好好的，但是当我们创建了一个10M的byte[]后，最大堆内存不够了，所以把软引用对象包裹的byte[]给干掉了，如果不干掉，就会抛出OOM。</p>
 <p>软引用到底有什么用呢？比较适合用作缓存，当内存足够，可以正常的拿到缓存，当内存不够，就会先干掉缓存，不至于马上抛出OOM。</p>
-<h3 id="虚引用"><a href="#虚引用" class="headerlink" title="虚引用"></a>虚引用</h3><p>虚引用又被称为幻影引用，我们来看看它的使用：</p>
+<h2 id="虚引用"><a href="#虚引用" class="headerlink" title="虚引用"></a>虚引用</h2><p>虚引用又被称为幻影引用，我们来看看它的使用：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ReferenceQueue queue = <span class="keyword">new</span> ReferenceQueue();</span><br><span class="line">PhantomReference&lt;<span class="keyword">byte</span>[]&gt; reference = <span class="keyword">new</span> PhantomReference&lt;<span class="keyword">byte</span>[]&gt;(<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1</span>], queue);</span><br><span class="line">System.out.println(reference.get());</span><br></pre></td></tr></table></figure>
 
 <p>虚引用的使用和上面说的软引用、弱引用的区别还是挺大的，我们先不管ReferenceQueue 是个什么鬼，直接来运行：</p>
