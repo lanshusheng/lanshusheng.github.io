@@ -126,7 +126,7 @@
 <meta property="og:site_name" content="滥书生的码洞">
 <meta property="og:description" content="#【转】Java的引用核心 引用：https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;iw6Vgm9odYSaeKTiofTVnw   java存在四种引用：强引用、软引用、弱引用、虚引用。 概览Java的内存分配和内存回收，都是由jvm去处理，一个对象是否可以被回收，主要看是否有引用指向此对象，说的专业点，叫可达性分析。 Java设计这四种引用的主要目的有两个：  可以让程序员通过代码的方式来">
 <meta property="article:published_time" content="2020-08-04T11:23:34.000Z">
-<meta property="article:modified_time" content="2020-08-04T12:44:50.172Z">
+<meta property="article:modified_time" content="2020-08-04T12:52:39.825Z">
 <meta property="article:author" content="lanshusheng">
 <meta property="article:tag" content="垃圾回收">
 <meta property="article:tag" content="引用">
@@ -431,7 +431,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.4k 字
+                  1.5k 字
                 </span>
               
 
@@ -447,7 +447,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  5 分钟
+                  6 分钟
                 </span>
               
             </div>
@@ -553,7 +553,18 @@
 </blockquote>
 <p>从运行结果可以看到：<strong>当发生GC，虚引用就会被回收，并且会把回收的通知放到ReferenceQueue中。</strong></p>
 <p>虚引用有什么用呢？在NIO中，就运用了虚引用管理堆外内存。</p>
-<script src="https://utteranc.es/client.js" repo="lanshusheng/lanshusheng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async>
+<p>##弱引用</p>
+<p>弱引用的使用和软引用类似，只是关键字变成了WeakReference：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WeakReference&lt;<span class="keyword">byte</span>[]&gt; weakReference = <span class="keyword">new</span> WeakReference&lt;<span class="keyword">byte</span>[]&gt;(<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>*<span class="number">1024</span>*<span class="number">10</span>]);</span><br><span class="line">System.out.println(weakReference.get());</span><br></pre></td></tr></table></figure>
+
+<p>弱引用的特点是不管内存是否足够，只要发生GC，都会被回收：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">WeakReference&lt;<span class="keyword">byte</span>[]&gt; weakReference = <span class="keyword">new</span> WeakReference&lt;<span class="keyword">byte</span>[]&gt;(<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1</span>]);</span><br><span class="line">System.out.println(weakReference.get());</span><br><span class="line">System.gc();</span><br><span class="line">System.out.println(weakReference.get());</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[B@11d7fff</span><br><span class="line">null</span><br></pre></td></tr></table></figure>
+
+<p>可以很清楚的看到明明内存还很充足，但是触发了GC，资源还是被回收了。弱引用在很多地方都有用到，比如ThreadLocal、WeakHashMap。</p>
+<h3 id="虚引用-1"><a href="#虚引用-1" class="headerlink" title="虚引用"></a>虚引用</h3><script src="https://utteranc.es/client.js" repo="lanshusheng/lanshusheng.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async>
 </script>
       
     </div>
@@ -597,6 +608,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/08/10/stream/" rel="prev" title="stream 常见函数的一些梳理">
+                stream 常见函数的一些梳理 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -684,7 +699,7 @@
               
                 <a href="/archives/%7C%7C%20history">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -695,7 +710,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -706,7 +721,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -746,7 +761,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概览"><span class="nav-text">概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#强引用"><span class="nav-text">强引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软引用"><span class="nav-text">软引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚引用"><span class="nav-text">虚引用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概览"><span class="nav-text">概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#强引用"><span class="nav-text">强引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软引用"><span class="nav-text">软引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚引用"><span class="nav-text">虚引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#虚引用-1"><span class="nav-text">虚引用</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -766,7 +781,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

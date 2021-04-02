@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://lanshusheng.github.io/"/>
-  <updated>2020-08-04T12:44:50.172Z</updated>
+  <updated>2021-04-01T13:09:11.958Z</updated>
   <id>https://lanshusheng.github.io/</id>
   
   <author>
@@ -17,11 +17,112 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>AQS</title>
+    <link href="https://lanshusheng.github.io/2021/04/01/AQS/"/>
+    <id>https://lanshusheng.github.io/2021/04/01/AQS/</id>
+    <published>2021-04-01T08:01:20.000Z</published>
+    <updated>2021-04-01T13:09:11.958Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;先上一段源码，看了半天讲解，回头发现还是得看源码[cry]。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="多线程" scheme="https://lanshusheng.github.io/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+    
+      <category term="多线程" scheme="https://lanshusheng.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+      <category term="AQS" scheme="https://lanshusheng.github.io/tags/AQS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>多线程synchronized</title>
+    <link href="https://lanshusheng.github.io/2021/03/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    <id>https://lanshusheng.github.io/2021/03/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</id>
+    <published>2021-03-30T08:01:20.000Z</published>
+    <updated>2021-04-01T12:45:56.331Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;记录一些自己感触！&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2021/03/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B/img/01_02.jpg&quot; alt=&quot;01_02&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="多线程" scheme="https://lanshusheng.github.io/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+    
+      <category term="synchronized" scheme="https://lanshusheng.github.io/tags/synchronized/"/>
+    
+      <category term="多线程" scheme="https://lanshusheng.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>基于redis的多维度排序</title>
+    <link href="https://lanshusheng.github.io/2020/08/10/%E5%9F%BA%E4%BA%8Eredis%E7%9A%84%E5%A4%9A%E5%9B%A0%E5%AD%90%E6%8E%92%E5%BA%8F/"/>
+    <id>https://lanshusheng.github.io/2020/08/10/%E5%9F%BA%E4%BA%8Eredis%E7%9A%84%E5%A4%9A%E5%9B%A0%E5%AD%90%E6%8E%92%E5%BA%8F/</id>
+    <published>2020-08-10T09:05:16.000Z</published>
+    <updated>2020-08-10T10:20:37.857Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;概览&quot;&gt;&lt;a href=&quot;#概览&quot; class=&quot;headerlink&quot; title=&quot;概览&quot;&gt;&lt;/a&gt;概览&lt;/h1&gt;&lt;h3 id=&quot;为什么需要多维度排序&quot;&gt;&lt;a href=&quot;#为什么需要多维度排序&quot; class=&quot;headerlink&quot; title=&quot;为什么需要多维度排序&quot;&gt;&lt;/a&gt;为什么需要多维度排序&lt;/h3&gt;&lt;p&gt;   常见的feed流架构下，我们需要很多的排序流，比如 雪球的评论流，需要按赞和时间进行排序（有赞的评论，先按赞排序。没有赞的评论按时间倒排）。&lt;/p&gt;
+&lt;p&gt;  需求：按赞和评论排序。QPS &amp;gt; 5000，需要缓存。&lt;/p&gt;
+&lt;p&gt;常见设计方案：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;feed流里面存储按时间排序feed流。定时或者异步计算时间因子。但是这个时候会面临一个问题，你的feed流永远计算不是实时的。你的热贴流永远计算不及时。所以方案一不可取。&lt;/li&gt;
+&lt;li&gt;采用bit方式, 统一或若干小domain(比如点赞数), 再在排序后面接bit控制。核心在于如何计算score。&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+    
+      <category term="redis使用" scheme="https://lanshusheng.github.io/categories/redis%E4%BD%BF%E7%94%A8/"/>
+    
+    
+      <category term="feed流" scheme="https://lanshusheng.github.io/tags/feed%E6%B5%81/"/>
+    
+      <category term="redis" scheme="https://lanshusheng.github.io/tags/redis/"/>
+    
+      <category term="sorted-set" scheme="https://lanshusheng.github.io/tags/sorted-set/"/>
+    
+      <category term="多因子排序" scheme="https://lanshusheng.github.io/tags/%E5%A4%9A%E5%9B%A0%E5%AD%90%E6%8E%92%E5%BA%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>stream 常见函数的一些梳理</title>
+    <link href="https://lanshusheng.github.io/2020/08/10/stream/"/>
+    <id>https://lanshusheng.github.io/2020/08/10/stream/</id>
+    <published>2020-08-10T08:15:00.000Z</published>
+    <updated>2020-08-10T09:53:38.765Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+      <category term="lambda函数" scheme="https://lanshusheng.github.io/categories/lambda%E5%87%BD%E6%95%B0/"/>
+    
+    
+      <category term="stream" scheme="https://lanshusheng.github.io/tags/stream/"/>
+    
+      <category term="Lambda" scheme="https://lanshusheng.github.io/tags/Lambda/"/>
+    
+  </entry>
+  
+  <entry>
     <title>关于强弱软虚引用</title>
     <link href="https://lanshusheng.github.io/2020/08/04/%E5%85%B3%E4%BA%8E%E5%BC%BA%E5%BC%B1%E8%99%9A%E5%BC%95%E7%94%A8/"/>
     <id>https://lanshusheng.github.io/2020/08/04/%E5%85%B3%E4%BA%8E%E5%BC%BA%E5%BC%B1%E8%99%9A%E5%BC%95%E7%94%A8/</id>
     <published>2020-08-04T11:23:34.000Z</published>
-    <updated>2020-08-04T12:44:50.172Z</updated>
+    <updated>2020-08-04T12:52:39.825Z</updated>
     
     <summary type="html">
     
@@ -54,7 +155,7 @@
     <link href="https://lanshusheng.github.io/2020/07/31/%E8%AE%A1%E6%95%B0%E5%99%A8/"/>
     <id>https://lanshusheng.github.io/2020/07/31/%E8%AE%A1%E6%95%B0%E5%99%A8/</id>
     <published>2020-07-31T05:47:31.000Z</published>
-    <updated>2020-07-31T08:40:21.416Z</updated>
+    <updated>2020-08-10T09:07:46.458Z</updated>
     
     <summary type="html">
     
