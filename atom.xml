@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://lanshusheng.github.io/"/>
-  <updated>2021-04-01T13:09:11.958Z</updated>
+  <updated>2021-04-21T01:40:56.975Z</updated>
   <id>https://lanshusheng.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>concurrentHashMap</title>
+    <link href="https://lanshusheng.github.io/2021/04/20/concurrentHashMap/"/>
+    <id>https://lanshusheng.github.io/2021/04/20/concurrentHashMap/</id>
+    <published>2021-04-20T13:03:30.000Z</published>
+    <updated>2021-04-21T01:40:56.975Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;一、Hash map 的一些简单介绍&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;真难啊，记录一个这个过程，最难的在于扩容，数据迁移操作不容易看懂。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2021/04/20/concurrentHashMap/hash.png&quot;
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>AQS</title>
