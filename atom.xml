@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://lanshusheng.github.io/"/>
-  <updated>2021-04-21T01:40:56.975Z</updated>
+  <updated>2021-05-10T12:53:05.902Z</updated>
   <id>https://lanshusheng.github.io/</id>
   
   <author>
@@ -17,23 +17,73 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>thread join</title>
+    <link href="https://lanshusheng.github.io/2021/05/10/thread-join/"/>
+    <id>https://lanshusheng.github.io/2021/05/10/thread-join/</id>
+    <published>2021-05-10T12:44:33.000Z</published>
+    <updated>2021-05-10T12:53:05.902Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;简单解释下，join就是调用wait()使线程进入WAIT状态。使线程完全执行完成。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+      <category term="thread" scheme="https://lanshusheng.github.io/categories/thread/"/>
+    
+    
+      <category term="— thread" scheme="https://lanshusheng.github.io/tags/%E2%80%94-thread/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>full gc</title>
+    <link href="https://lanshusheng.github.io/2021/05/10/full-gc/"/>
+    <id>https://lanshusheng.github.io/2021/05/10/full-gc/</id>
+    <published>2021-05-10T12:05:21.000Z</published>
+    <updated>2021-05-10T12:05:21.475Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>thread详解</title>
+    <link href="https://lanshusheng.github.io/2021/04/28/thread%E8%AF%A6%E8%A7%A3/"/>
+    <id>https://lanshusheng.github.io/2021/04/28/thread%E8%AF%A6%E8%A7%A3/</id>
+    <published>2021-04-28T11:34:48.000Z</published>
+    <updated>2021-04-28T12:03:45.984Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;转载一遍：最适合新人看的。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/H6XSVlaY1gB6Gse3GR8BeA&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://mp.weixin.qq.com/s/H6XSVlaY1gB6Gse3GR8BeA&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>concurrentHashMap</title>
     <link href="https://lanshusheng.github.io/2021/04/20/concurrentHashMap/"/>
     <id>https://lanshusheng.github.io/2021/04/20/concurrentHashMap/</id>
     <published>2021-04-20T13:03:30.000Z</published>
-    <updated>2021-04-21T01:40:56.975Z</updated>
+    <updated>2021-04-25T12:20:52.687Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;一、Hash map 的一些简单介绍&lt;/p&gt;
+      &lt;p&gt;一、Hash map 的一些简单介绍&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;真难啊，记录一个这个过程，最难的在于扩容，数据迁移操作不容易看懂。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/2021/04/20/concurrentHashMap/hash.png&quot;
-        
-      
+&lt;p&gt;&lt;img src=&quot;/2021/04/20/concurrentHashMap/hash.png&quot; alt=&quot;hash&quot;&gt;&lt;/p&gt;
     
     </summary>
     
